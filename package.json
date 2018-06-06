@@ -6,12 +6,20 @@
     "start": "nodejs ./bin/www"
   },
   "dependencies": {
-    "express": "~4.0.0",
-    "static-favicon": "~1.0.0",
+    "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.3",
+    "debug": "^3.1.0",
+    "ejs": "~0.8.5",
+    "express": "^4.16.3",
+    "fresh": "^0.5.2",
+    "get-timezone-offset": "^1.0.3",
+    "mailer": "^0.6.7",
+    "moment-timezone": "^0.5.17",
     "morgan": "~1.0.0",
-    "cookie-parser": "~1.0.1",
-    "body-parser": "~1.0.0",
-    "debug": "~0.7.4",
-    "ejs": "~0.8.5"
+    "negotiator": "^0.6.1",
+    "node-mailer": "^0.1.1",
+    "nodemailer": "^4.6.5",
+    "qs": "^6.5.2",
+    "static-favicon": "~1.0.0"
   }
 }

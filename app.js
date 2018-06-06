@@ -7,7 +7,11 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var moment = require('moment-timezone');
+process.env.TZ = 'UTC';
 
+
+// console.log(now);
 var app = express();
 
 // view engine setup
@@ -55,5 +59,8 @@ app.use(function(err, req, res, next) {
     });
 });
 
+app.listen(3014, function() {
+    console.log("Express server listening");
+});
 
 module.exports = app;
