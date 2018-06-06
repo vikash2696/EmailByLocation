@@ -6,44 +6,55 @@ var moment = require('moment-timezone');
 
 var nodemailer = require("../node_modules/nodemailer");
 
-//get all DISTINCT timezones
-var queryString = 'SELECT DISTINCT timezone FROM users';
+
+var queryString = 'SELECT * FROM users';
 var timeZones = [];
 
 connection.query(queryString, function(err, result, fields) {
+	
 	Object.keys(result).forEach(function(key) {
 		timeZones.push(result[key].timezone);
 	});
+
+	
 });
 
 
 /* GET users listing. */
 router.get('/', function(req, res) {
-	var userList = [];
-	var now = new Date();
-	var utcDateTime = moment(now);
+	setTimeInterval(timeZones);
 
-	timeZones.forEach(function(element) {
-		//get time according to timezones
-	  var curTime = utcDateTime.tz(element).format('ha');
-	  // console.log(curTime);
-	  if(curTime == "8am") {
-	  	
-	  	var getuserQuery = `SELECT * FROM users where timezone ="${element}"`;
-		
-	  	connection.query(getuserQuery, function(err, users, fields) {
-	  		users.forEach(function(element) {
-	  			var err = "";
-	  			nodemailer.createTestAccount(sendmail(err,element.email));
-	  		});
-		});
-	  }
-	});
 });
 
-//mail send function
+const setTimeInterval = function(timeZones) {
+	setInterval(function() {
+		var userList = [];
+			var now = new Date();
+			var utcDateTime = moment(now);
+
+			timeZones.forEach(function(element) {
+				console.log(element);
+				//get time according to timezones
+			  var curTime = utcDateTime.tz(element).format('ha');
+			  console.log(curTime);
+			  if(curTime == "8am") { 
+			  	
+			  	var getuserQuery = `SELECT * FROM users where timezone ="${element}"`;
+				
+			  	connection.query(getuserQuery, function(err, users, fields) {
+			  		users.forEach(function(element1) {
+			  			var err = "";
+			  			nodemailer.createTestAccount(sendmail(err,element1.email));
+			  		});
+				});
+			  }
+			});
+		}, 10000)
+};
+
 const sendmail = function (err, userEmail) {
     // create reusable transporter object using the default SMTP transport
+console.log(userEmail);
 	var transporter = nodemailer.createTransport({
 		  service: 'gmail',
 		  auth: {
